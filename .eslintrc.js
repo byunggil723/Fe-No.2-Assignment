@@ -27,4 +27,12 @@ module.exports = {
       version: 'detect',
     },
   },
+  overrides: [
+    {
+      files: ['vite.config.js'],
+      env: {
+        node: true,
+      },
+    },
+  ],
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Router from '@/shared/Router';
 
 const StBox = styled.div`
   display: flex;
@@ -13,11 +14,7 @@ const StBox = styled.div`
 `;
 
 function App() {
-  return (
-    <>
-      <StBox>텍스트</StBox>
-    </>
-  );
+  return <Router />;
 }
 
 export default App;
