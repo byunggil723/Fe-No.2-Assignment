@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import close from '@/assets/close.svg';
+import { SelectedPokemonContext } from '@/context/SelectedPokemonContext';
 
 const StyledSelectedCard = styled.div`
   width: 15%;
@@ -54,22 +55,18 @@ const DeleteButton = styled.img`
   }
 `;
 
-const SelectedCard = ({
-  imgUrl,
-  name,
-  id,
-  selectedPokemon,
-  setSelectedPokemon,
-}) => {
+const SelectedCard = ({ index }) => {
+  const { selectedPokemon, setSelectedPokemon } = useContext(
+    SelectedPokemonContext
+  );
   return (
     <StyledSelectedCard>
-      <PokemonImage src={imgUrl} />
-      <Name>{name}</Name>
-      <Number>No.{id}</Number>
+      <PokemonImage src={selectedPokemon[index].img_url} />
+      <Name>{selectedPokemon[index].korean_name}</Name>
+      <Number>No.{selectedPokemon[index].id}</Number>
       <DeleteButton
         src={close}
         onClick={() => {
-          const index = selectedPokemon.findIndex((item) => item.id === id);
           selectedPokemon.splice(index, 1, undefined);
           const tempArr = [...selectedPokemon];
           setSelectedPokemon(tempArr);

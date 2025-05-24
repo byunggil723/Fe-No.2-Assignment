@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import SelectedCard from './SelectedCard';
 import pokeBall from '@/assets/pokeBall.svg';
+import { SelectedPokemonContext } from '@/context/SelectedPokemonContext';
 
 const StyledDashboard = styled.div`
   width: 95%;
@@ -45,23 +46,15 @@ const Slot = styled.img`
   border-radius: 12px;
 `;
 
-const Dashboard = ({ selectedPokemon, setSelectedPokemon }) => {
+const Dashboard = () => {
+  const { selectedPokemon } = useContext(SelectedPokemonContext);
   return (
     <StyledDashboard>
       <Title>Select your pokemon!</Title>
       <Container>
         {selectedPokemon.map((item, index) => {
           if (item !== undefined) {
-            return (
-              <SelectedCard
-                key={index}
-                imgUrl={selectedPokemon[index].img_url}
-                name={selectedPokemon[index].korean_name}
-                id={selectedPokemon[index].id}
-                selectedPokemon={selectedPokemon}
-                setSelectedPokemon={setSelectedPokemon}
-              />
-            );
+            return <SelectedCard key={index} index={index} />;
           } else {
             return <Slot key={index} src={pokeBall} />;
           }

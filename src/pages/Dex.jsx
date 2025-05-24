@@ -1,7 +1,7 @@
 import Dashboard from '@/components/Dashboard';
 import PokemonList from '@/components/PokemonList';
+import { SelectedPokemonContext } from '@/context/SelectedPokemonContext';
 import React, { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Background = styled.div`
@@ -23,22 +23,19 @@ const Dex = () => {
     undefined,
     undefined,
   ]);
-  const url = useLocation();
-  const param = useParams();
-  console.log('url => ', url);
-  console.log('param => ', param);
 
   return (
-    <Background>
-      <Dashboard
-        selectedPokemon={selectedPokemon}
-        setSelectedPokemon={setSelectedPokemon}
-      />
-      <PokemonList
-        selectedPokemon={selectedPokemon}
-        setSelectedPokemon={setSelectedPokemon}
-      />
-    </Background>
+    <SelectedPokemonContext.Provider
+      value={{
+        selectedPokemon,
+        setSelectedPokemon,
+      }}
+    >
+      <Background>
+        <Dashboard />
+        <PokemonList />
+      </Background>
+    </SelectedPokemonContext.Provider>
   );
 };
 

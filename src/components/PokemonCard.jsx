@@ -1,4 +1,6 @@
-import React from 'react';
+import { PokemonContext } from '@/context/PokemonContext';
+import { SelectedPokemonContext } from '@/context/SelectedPokemonContext';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -59,31 +61,31 @@ const AddButton = styled.button`
   }
 `;
 
-const PokemonCard = ({
-  imgUrl,
-  name,
-  id,
-  selectedPokemon,
-  setSelectedPokemon,
-}) => {
+const PokemonCard = ({ row, column }) => {
   const navigate = useNavigate();
+  const { arr } = useContext(PokemonContext);
+  const { selectedPokemon, setSelectedPokemon } = useContext(
+    SelectedPokemonContext
+  );
   return (
     <StyledPokemonCard>
       <PokemonImage
-        src={imgUrl}
-        onClick={() => navigate(`/dex/detail/${id}`)}
+        src={arr[row][column].img_url}
+        onClick={() => navigate(`/dex/detail/${arr[row][column].id}`)}
       />
-      <Name>{name}</Name>
-      <Number>No.{id}</Number>
+      <Name>{arr[row][column].korean_name}</Name>
+      <Number>No.{arr[row][column].id}</Number>
       <AddButton
         onClick={() => {
           if (!selectedPokemon.some((item) => item === undefined)) {
             alert('더 이상 선택할 수 없습니다.');
-          } else if (!selectedPokemon.some((item) => item?.id === id)) {
+          } else if (
+            !selectedPokemon.some((item) => item?.id === arr[row][column].id)
+          ) {
             const obj = {
-              img_url: imgUrl,
-              korean_name: name,
-              id: id,
+              img_url: arr[row][column].img_url,
+              korean_name: arr[row][column].korean_name,
+              id: arr[row][column].id,
             };
             const index = selectedPokemon.indexOf(undefined);
             selectedPokemon.splice(index, 1, obj);

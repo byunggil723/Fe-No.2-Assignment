@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PokemonCard from './PokemonCard';
 import MOCK_DATA from '../../mock';
+import { PokemonContext } from '@/context/PokemonContext';
 
 const StyledPokemonList = styled.div`
   width: 95%;
@@ -15,7 +16,7 @@ const StyledPokemonList = styled.div`
   gap: 2%;
 `;
 
-const PokemonList = ({ selectedPokemon, setSelectedPokemon }) => {
+const PokemonList = () => {
   const [arr, setArr] = useState([]);
 
   useEffect(() => {
@@ -36,24 +37,17 @@ const PokemonList = ({ selectedPokemon, setSelectedPokemon }) => {
   }, []);
 
   return (
-    <>
+    <PokemonContext.Provider value={{ arr }}>
       {arr.map((itemBundle, i) => {
         return (
           <StyledPokemonList key={i}>
-            {itemBundle.map((item, j) => (
-              <PokemonCard
-                key={j}
-                imgUrl={item.img_url}
-                name={item.korean_name}
-                id={item.id}
-                selectedPokemon={selectedPokemon}
-                setSelectedPokemon={setSelectedPokemon}
-              />
+            {itemBundle.map((_, j) => (
+              <PokemonCard key={j} row={i} column={j} />
             ))}
           </StyledPokemonList>
         );
       })}
-    </>
+    </PokemonContext.Provider>
   );
 };
 
